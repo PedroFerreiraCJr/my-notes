@@ -1,0 +1,108 @@
+# a maioria dos comandos previsa ser executado com privilégios
+
+# faz o pull da imagem informada para a máquina local;
+# faz o docker container create
+# inicia o container previamente criado
+# executa o container previamente iniciado
+docker container run <image> [<command>] [<args>,...]
+# vale lembrar que a cada execução do comando 'run' um novo container é criado
+# é possível nomear um container parar posterior utilização
+# digite: docker container run --help, para ajuda
+
+# a flag --name é utilizada para nomear um container, o que possibilita uma posterior execução a partir do mesmo ponto
+docker container run --name my-ubuntu -it ubuntu bash
+
+# flag -it para modo interativo
+docker container run -it <image> [command]
+# chama o container para ser executado em modo iterativo utilizando o terminal (flag -t) bash
+docker container run -it ubuntu bash
+# forma antiga do comando
+docker run <image> [<command>] [<args>,...]
+
+# a flag --rm diz para o docker remover da listagem de containeres após a execução do comando
+docker container run --rm <image>
+# digite: docker container run --help, para ajuda
+
+# simplesmente baixa a imagem do dockerhub, caso seja necessário.
+docker image pull <image>
+# digite: docker image pull --help, para ajuda
+# forma antiga do comando
+docker pull <image>
+
+# faz a criação da imagem do container docker
+docker container create <image>
+# digite: docker container create --help, para ajuda
+# forma antiga do comando
+docker create <image>
+
+# flag -ai modo interativo
+docker container start -ai <container-name>
+# inicia um container a partir do identificador
+docker container start <container-name>
+# digite: docker container start --help, para ajuda
+# forma antiga do comando
+docker start <container-name>
+
+# inicia um container a partir de identificador no modo iterativo (flag -i), ou seja, com terminal attached (flag -a)
+docker container start -ai <container-name>
+
+# flag -t modo interativo
+docker container exec -t <container-name> <command>
+# executa o container a partir do identificador em modo interativo
+docker container exec <container-name> <command> [<args,...>]
+# digite: docker container exec --help, para ajuda
+# forma antiga do comando
+docker exec <container-name>
+
+# reinicializa um container já inicializado
+docker container restart <container-name>
+
+# lista os containeres ativos
+docker container ps
+# digite: docker contianer ps --help, para ajuda
+# comando sinônimo:
+docker container ls
+
+# lista os containeres em qualquer status
+docker container ps -a
+# digite: docker contianer ps --help, para ajuda
+# comando sinônimo:
+docker container ls -a
+
+# existem duas formas de execução de container:
+# 1. um processo em background;
+# 2. modo interativo;
+
+# exemplo de exposição de porta do container
+docker container run -p 8080:80 nginx
+# este comando mapeia a porta 8080 da máquina host para a porta 80 do container
+
+# exemplo de compartilhamento de pasta/volume com o container
+docker container run -p 8080:80 -v $(pwd)/not-found:/usr/share/nginx/html nginx
+# este comando deve ser executado de dentro da pasta ex-volume
+# o comando acima deve gerar um forbidden, pois a pasta não existe
+
+# exemplo de compartilhamento de pasta/volume com o container
+docker container run -p 8080:80 -v $(pwd)/html:/usr/share/nginx/html nginx
+# já este comando deve executar com sucesso, mostrando o arquivo html index.html que foi criado na máquina host
+# agora acesse http://localhost:8080/ no navegador para visualizar o conteúdo html da página index.html
+
+# exemplo de execução de container em background
+docker container run -d --name ex-daemon-basic -p 8080:80 -v $(pwd)/html:/usr/share/nginx/html nginx
+# acessando a url http://localhost:8080/ a página index.html deverá ser mostrada
+
+# para visualizar o container em execução
+docker container ps
+
+# comando para parar o container que foi iniciado e está rodando em background
+docker container stop ex-daemon-basic
+
+# gerenciando os containers
+docker container logs <container-name>
+
+docker container inspect <container-name>
+
+docker container exec <container-name> bash [<args,...>]
+
+# após startar o container, com o comando abaixo é possível entrar no bash do container em execução
+sudo docker container exec -it ex-daemon-basic bash
