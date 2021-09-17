@@ -1,4 +1,3 @@
-
 ## Introdução ao MongoDB
 Através do terminal rode o comando **mongosh** para chamar o cliente de acesso ao serviço do MongoDB.
 
@@ -9,7 +8,7 @@ db.createCollection('alunos')
 
  - Para realizar a inserção de um único valor em uma coleção, é possível utilizar a função **insertOne**.
 ```javascript
-{
+db.alunos.insertOne({
 	'nome': 'Felipe',
 	'data_nascimento': new Date(1994, 1, 26),
 	'curso': {
@@ -26,8 +25,27 @@ db.createCollection('alunos')
 			'nível': 'Básico'
 		}
 	]
-}
+})
+
+db.alunos.insertOne({
+	'nome': 'André',
+	'data_nascimento': new Date(1991, 1, 25),
+	'curso': {
+		'nome': 'Matemática'
+	}
+	'notas': [7, 5, 9, 4.5]
+})
+
+db.alunos.insertOne({
+	'nome': 'Lúcia',
+	'data_nascimento': new Date(1984, 7, 17),
+	'curso': {
+		'nome': 'Matemática'
+	}
+	'notas': [8, 9.5, 10]
+})
 ```
+
  - Para fazer uma listagem de todos os valores de uma coleção, é possível utilizar a função **find** para isso.
 ```javascript
 db.alunos.find()
@@ -131,3 +149,31 @@ db.alunos.updateOne(
 	}
 )
 ```
+
+ - O exemplo a seguir faz uma busca pelos elementos do array notas procurando por alunos que tenha nota igual a 8.5.
+```javascript
+db.alunos.find({ 'notas': 8.5 })
+```
+
+ - O exemplo a seguir faz uma busca retornando todos os alunos que tenham no array de notas uma ou mais notas maiores do que 5.
+```javascript
+db.alunos.find({ 'notas': { $gt : 5 } })
+```
+
+ - Para fazer uma consulta resultando em somente um (1) elemento retornado, caso exista, a função a ser usada é a função **findOne**.
+```javascript
+db.alunos.findOne({ 'notas': { $gt : 5 } })
+```
+
+ - Quando é necessário fazer algum tipo de ordenação nos valores retornados pela função **find** ou cerrelatas, é possível fazer uso da função **sort**, como no seguinte exemplo.
+```javascript
+db.alunos.find({ 'notas': { $gt : 5 } }).sort({ 'nome': 1 })
+```
+ - Essa consulta retorna todos os alunos que tenham no array de notas, um ou mais valores maiores que cinco, ordenando o resultado pelo atributo *nome* de forma ascendente.
+ - **Obs** os valores aceitos para o valores de ordenação são: 1, -1.
+
+ - Segue um exemplo de uma consulta mais elaborada.
+```javascript
+db.alunos.find({ 'notas': { $gt : 5 } }).sort({ 'nome': 1 }).limit(3)
+```
+ - Este exemplo trás os três primeiros alunos ordenados de forma ascendente pelo atributo nome, onde os alunos tenham no array de notas um ou mais valores maiores do que 5.
