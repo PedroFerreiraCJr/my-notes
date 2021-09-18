@@ -1,4 +1,15 @@
 ### Comandos básicos
+ - O passos abaixo servem para fazer o upload de uma imagem local para o Docker Hub:
+```bash
+# vale lembrar que é necessário uma conta do serviço do Docker Hub
+sudo docker image tag ex-simple-build <username>/simple-build:1.0
+# o comando acima cria a tag simple-build, na versão 1.0, para a imagem ex-simple-build
+# a mesma pode ser listada com o comando: docker image ls
+sudo docker login --username=pedroferreiracjr
+# o comando acima faz o login no username informado, a senha será solicitada
+sudo docker image push <username>/simple-build:1.0
+```
+
  - É possível atribuir uma tag para uma imagem do docker com o seguinte comando:
 ```bash
 docker image tag redis:latest ultima-versao-redis
