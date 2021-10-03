@@ -82,3 +82,10 @@ sudo docker image build --build-arg S3_BUCKET=myapp -t build-arg .
 ```
  - **Obs** Os parâmetros passados para o comando foram **-t** para dar uma tag a imagem recem criada e, **.** para informar em qual diretório está o arquivo descritor.
  - **Obs** O parâmetro **- - build-arg** serve para indicar quais parâmetros de linha de comandos devem ser considerados argumentos do arquivo **Dockerfile**.
+
+
+ - Para limpar o histórico de execução dos containers que já foram executados, é possível .
+```bash
+sudo docker container prune
+```
+- **Obs** Este comando pede confirmação antes que a operação seja executada, e retorna o hash de todos os containers que foram removidos.
