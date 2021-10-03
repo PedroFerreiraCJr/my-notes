@@ -59,7 +59,7 @@ FROM nginx:latest
 # o comando RUN cria uma nova layer no sistema de arquivos através da execução do comando informado
 RUN echo '<h1>Hello World</h1>' > /usr/share/nginx/html/index.html
 ```
- - Para executar este arquivo do Docker e criar a imagem em si, é necessário executar o comando a seguir na linha de comandos. Este comando constroi a imagem, a partir do arquivo **Dockerfile** criado acima.
+ - Para executar este arquivo do Docker e criar a imagem em si, é necessário executar o comando a seguir na linha de comandos. Este comando constrói a imagem, a partir do arquivo **Dockerfile** criado acima.
 ```bash
 sudo  docker image build -t primeiro-build .
 ```
@@ -83,9 +83,32 @@ sudo docker image build --build-arg S3_BUCKET=myapp -t build-arg .
  - **Obs** Os parâmetros passados para o comando foram **-t** para dar uma tag a imagem recem criada e, **.** para informar em qual diretório está o arquivo descritor.
  - **Obs** O parâmetro **- - build-arg** serve para indicar quais parâmetros de linha de comandos devem ser considerados argumentos do arquivo **Dockerfile**.
 
-
- - Para limpar o histórico de execução dos containers que já foram executados, é possível .
+ - Para limpar o histórico de execução dos containers que já foram executados, é possível usar o comando abaixo.
 ```bash
 sudo docker container prune
 ```
 - **Obs** Este comando pede confirmação antes que a operação seja executada, e retorna o hash de todos os containers que foram removidos.
+
+ - Para listar as redes disponíveis, use o comando a seguir.
+```bash
+sudo docker network ls
+```
+
+ - Para listar as redes disponíveis, use o comando a seguir.
+```bash
+sudo docker container run --rm --net none alpine ash -c "ifconfig"
+```
+ - **Obs** O parâmetro **- - rm** foi usado para indicar que não deve ser salvo no histórico de execução de containers.
+ - **Obs** O parâmetro **- - net none** foi usado para indicar que este container deve ser executado sem acesso a rede, ou seja, rede em modo none.
+
+ - É possível inspecionar uma rede previamente criada e disponível com o comando a seguir.
+```bash
+sudo docker network inspect bridge
+```
+- **Obs** O parâmetro **brigde** é uma rede que é configurada por padrão no Docker Engine.
+
+ - Com o comando a seguir é possível criar uma nova faixa de rede de classificação B.
+```bash
+sudo docker network create --driver bridge rede_nova
+```
+- **Obs** Com o comando *docker network inspect rede_nova* é possível inspecionar a nova rede para saber qual a faixa de IP.
